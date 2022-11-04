@@ -14,9 +14,13 @@ import MsgBox from '../components/Texts/MsgBox';
 import RegularButton from '../components/Buttons/RegularButton';
 import PressableText from '../components/Texts/PressableText';
 
-const Signup = () => {
+const Signup = ({navigation}) => {
     const [message, setMessage] = useState('');
     const [isSuccessMessage, setIsSuccessMessage] = useState(false);
+
+    const moveTo = (screen, payLoad) => {
+        navigation.navigate(screen, {...payLoad});
+    };
 
     const handleSignup = async (credentials, setSubmitting) => {
         try {
@@ -25,7 +29,7 @@ const Signup = () => {
             // call backend
 
             // move to next page
-
+            moveTo('EmailVerification');
             setSubmitting(false);
         } catch (error) {
             setMessage('Signup failed: ' + error.message);
@@ -108,7 +112,7 @@ const Signup = () => {
                             </RegularButton>
                         )}
 
-                            <PressableText style={{paddingVertical: 15}} onPress={() => {}}>Sign in to an existing account</PressableText>
+                            <PressableText style={{paddingVertical: 15}} onPress={() => {moveTo('Login')}}>Sign in to an existing account</PressableText>
                     </>
                 )}
             </Formik>
