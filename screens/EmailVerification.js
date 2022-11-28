@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { ActivityIndicator } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import { colors } from '../components/colors';
-const { primary, secondary, lightGray } = colors;
+const { primary, secondary, white } = colors;
 
 // customer components
 import MainContainer from '../components/Containers/MainContainer';
@@ -11,21 +12,15 @@ import RegularText from '../components/Texts/RegularText';
 import RegularButton from '../components/Buttons/RegularButton';
 import IconHeader from '../components/Icons/IconHeader';
 import StyledCodeInput from '../components/Inputs/StyledCodeInput';
-import ResendTimer from '../components/Timers/ResendTimer';
 import MessageModal from '../components/Modals/MessageModal';
 
 const EmailVerification = ({navigation}) => {
     // code input
-    const MAX_CODE_LENGTH = 4;
+    const MAX_CODE_LENGTH = 6;
     const [code, setCode] = useState('');
     const [pinReady, setPinReady] = useState(false);
 
     const [verifying, setVerifying] = useState(false);
-
-    //resending email
-    const [activeResend, setActiveResend] = useState(false);
-    const [resendStatus, setResendStatus] = useState('Resend');
-    const [resendingEmail, setResendingEmail] = useState(false);
 
     //modal
     const [modalVisible, setModalVisible] = useState(false);
@@ -40,7 +35,7 @@ const EmailVerification = ({navigation}) => {
 
     const buttonHandler = () => {
         if (modalMessageType === 'success') {
-            // do something
+            // move user to dashboard if email verification was completed
             moveTo('Dashboard');
         }
         setModalVisible(false);
@@ -54,40 +49,38 @@ const EmailVerification = ({navigation}) => {
         setModalVisible(true);
     }
 
-    const resendEmail = async (triggerTimer) => {
-        try {
-            setResendingEmail(true);
-
-            // make request to backend
-            // update setResendStatus() to 'Failed' or 'Sent!'
-
-            setResendingEmail(false);
-            // hold on briefly
-            setTimeout(() => {
-                setResendStatus('Resend');
-                setActiveResend(false);
-                triggerTimer();
-
-            }, 5000);
-
-        } catch (error) {
-            setResendingEmail(false);
-            setResendStatus('Failed!');
-            alert('Email Resend Failed: ' + error.message);
-        }
-    };
-
     const handleEmailVerification = async () => {
+        var _ud = await AsyncStorage.getItem('@MyApp_user');
+        var ud = JSON.parse(_ud);
+        var userId = ud._id;
+
         try {
             setVerifying(true);
-
             // call backend
-
-            setVerifying(false);
-            return showModal('success', 'All Good!', 'Your email has been verified.', 'Proceed');
+            const response = await fetch('https://cop4331-1738.herokuapp.com/api/verifyemail', {
+                method: 'POST',
+                headers: {
+                    Accept: 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    userID: userId,
+                    code: code
+                })
+            });
+            if (response.ok) {
+                //console.log("That worked ", email);
+                setVerifying(false);
+                return showModal('success', 'All Good!', 'Your email has been verified.', 'Proceed');
+            }
+            else {
+                //console.log("That didn't seem to work", email);
+                setVerifying(false);
+                return showModal('failed', 'Failed!', 'Please verify the code is correct.', 'Retry');
+            }
         } catch (error) {
             setVerifying(false);
-            return showModal('failed', 'Failed!', error.message, 'Close');
+            return showModal('failed', 'Failed!', error.message, 'Retry');
         }
     }
 
@@ -97,13 +90,13 @@ const EmailVerification = ({navigation}) => {
             <IconHeader name="lock-open" style={{marginBottom: 30}} />
 
             <RegularText style={{ textAlign: 'center' }}>
-                Enter the 4-digit code sent to your email
+                Enter the 6-digit code sent to your email
             </RegularText>
 
             <StyledCodeInput code={code} setCode={setCode} maxLength={MAX_CODE_LENGTH} setPinReady={setPinReady} />
 
             {!verifying && pinReady && <RegularButton onPress={ handleEmailVerification }>Verify</RegularButton>}
-            {!verifying && !pinReady && <RegularButton disabled={true} style={{backgroundColor: secondary}} textStyle={{color: lightGray}} >Verify</RegularButton>}
+            {!verifying && !pinReady && <RegularButton disabled={true} style={{backgroundColor: secondary}} textStyle={{color: white}} >Verify</RegularButton>}
 
                 
                 {verifying && (
@@ -111,14 +104,6 @@ const EmailVerification = ({navigation}) => {
                     <ActivityIndicator size="small" color={ primary } />
                     </RegularButton>
                 )}
-
-                <ResendTimer 
-                    activeResend={activeResend} 
-                    setActiveResend={setActiveResend} 
-                    resendStatus={resendStatus} 
-                    resendingEmail={resendingEmail} 
-                    resendEmail={resendEmail}
-                />
                 <MessageModal 
                     modalVisible={modalVisible} 
                     buttonHandler={buttonHandler} 

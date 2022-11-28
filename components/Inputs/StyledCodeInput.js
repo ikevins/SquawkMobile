@@ -4,7 +4,7 @@ import React, { useRef, useState, useEffect } from 'react';
 import styled from 'styled-components/native';
 import { StatusBarHeight } from '../shared';
 import { colors } from '../colors';
-const { primary, secondary, tertiary, accent } = colors;
+const { primary, secondary, tertiary, accent, white } = colors;
 
 const CodeInputSection = styled.View`
     flex: 1;
@@ -21,7 +21,7 @@ const HiddenTextInput = styled.TextInput`
 `
 
 const CodeInputContainer = styled.Pressable`
-    width: 70%;
+    width: 95%;
     flex-direction: row;
     justify-content: space-between;
 `
@@ -35,14 +35,14 @@ const CodeInput = styled.View`
 `
 
 const CodeInputText = styled.Text`
-    font-size: 22px;
+    font-size: 25px;
     font-weight: bold;
     text-align: center;
-    color: ${ tertiary };
+    color: ${ white };
 `
 
 const codeInputFocused = styled(CodeInput)`
-    border-color: ${accent};
+    border-color: ${ accent };
 
 `
 

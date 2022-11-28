@@ -3,7 +3,7 @@ import React from 'react';
 // styled components
 import styled from 'styled-components/native';
 import { colors } from '../colors';
-const { accent } = colors;
+const { white } = colors;
 import SmallText from '../Texts/SmallText';
 
 
@@ -15,7 +15,7 @@ const StyledPressable = styled.Pressable`
 const PressableText = (props) => {
     return (
     <StyledPressable onpress={ props.onPress } { ...props }>
-        <SmallText style={{ color: accent }}>{ props.children }</SmallText>
+        <SmallText style={{ color: white }}>{ props.children }</SmallText>
     </StyledPressable>
     );
 };

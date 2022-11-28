@@ -5,7 +5,7 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 // styled components
 import styled from 'styled-components/native';
 import { colors } from '../colors';
-const { primary, secondary, tertiary, accent, lightGray } = colors;
+const { primary, secondary, tertiary, accent, lightGray, white } = colors;
 import SmallText from '../Texts/SmallText';
 
 const InputField = styled.TextInput`
@@ -18,7 +18,7 @@ const InputField = styled.TextInput`
     height: 60px;
     margin-top: 3px;
     margin-bottom: 10px;
-    color: ${ tertiary }
+    color: ${ white }
     border-color: ${ secondary };
     border-width: 2px;
 `;
@@ -52,13 +52,13 @@ const StyledTextInput = ({ icon, label, isPassword, ...props }) => {
     
     const customOnFocus = () => {
         props?.onFocus;
-        setInputBackgroundColor(secondary);
+        setInputBackgroundColor(primary);
         
     }
 
     return (<View>
         <LeftIcon>
-            <MaterialCommunityIcons name={ icon } size={ 30 } color={ accent } />
+            <MaterialCommunityIcons name={ icon } size={ 30 } color={ secondary } />
         </LeftIcon>
         <SmallText>{ label }</SmallText>
         <InputField 
@@ -72,7 +72,7 @@ const StyledTextInput = ({ icon, label, isPassword, ...props }) => {
         {isPassword && <RightIcon onPress={() => {
             setHidePassword(!hidePassword);
         }}>
-            <MaterialCommunityIcons name={ hidePassword ? 'eye-off' : 'eye' } size={ 30 } color={ tertiary } />
+            <MaterialCommunityIcons name={ hidePassword ? 'eye-off' : 'eye' } size={ 30 } color={ secondary } />
         </RightIcon>}
     </View>)
 };

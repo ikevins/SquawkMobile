@@ -5,7 +5,7 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 // styled components
 import styled from 'styled-components/native';
 import { colors } from '../colors';
-const { primary, black, success, fail, tertiary } = colors;
+const { primary, black, success, fail, tertiary, secondary, white } = colors;
 import BigText from '../Texts/BigText';
 import RegularText from '../Texts/RegularText';
 import RegularButton from '../Buttons/RegularButton';
@@ -38,9 +38,9 @@ const MessageModal = ({modalVisible, buttonHandler, type, headerText, message, b
                 <MaterialCommunityIcons 
                     name={ type === 'success' ? 'check-circle' : 'close-circle'} 
                     size={100} 
-                    color={ type === 'success' ? success : fail} 
+                    color={ type === 'success' ? secondary : fail} 
                 />
-                <BigText style={{fontSize: 25, color: tertiary, marginVertical: 10}}>{headerText}</BigText>
+                <BigText style={{fontSize: 25, color: white, marginVertical: 10}}>{headerText}</BigText>
                 <RegularText style={{marginBottom: 20}}>{message}</RegularText>
                 <RegularButton onPress={buttonHandler}>{buttonText || `Complete`}</RegularButton>
             </ModalView>

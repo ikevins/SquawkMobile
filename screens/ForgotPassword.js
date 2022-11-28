@@ -27,12 +27,29 @@ const ForgotPassword = ({navigation}) => {
             setMessage(null);
 
             // call backend
-
-            // move to next page
-            moveTo('ResetPassword');
-            setSubmitting(false);
+            const response = await fetch('https://cop4331-1738.herokuapp.com/api/sendrecoveryemail', {
+                method: 'POST',
+                headers: {
+                    Accept: 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    email: credentials.email
+                })
+            });
+            if (response.ok) {
+                //console.log("That worked ", email);
+                // move to next page
+                moveTo('ResetPassword');
+                setSubmitting(false);
+            }
+            else {
+                //console.log("That didn't seem to work", email);
+                setVerifying(false);
+                setMessage('Hmm... It seems that we cant find that email address :(');
+            }
         } catch (error) {
-            setMessage('Request failed: ' + error.message);
+            ('Request failed: ' + error.message);
             setSubmitting(false);
         }
     }
@@ -41,7 +58,7 @@ const ForgotPassword = ({navigation}) => {
     <MainContainer>
         <KeyboardAvoidingContainer>
             <IconHeader name="key" style={{marginBottom: 30}} />
-            <RegularText style={{ marginBottom: 25 }}>Provide the details below to begin the process</RegularText>
+            <RegularText style={{ marginBottom: 25, textAlign: 'center' }}>Please enter the email address associated with your account</RegularText>
             <Formik 
                 initialValues={{ email: '' }}
                 onSubmit={(values, {setSubmitting}) => {

@@ -42,6 +42,8 @@ const Signup = ({navigation}) => {
                   })
               });
 
+              
+
             // handle response 
             var res = JSON.parse(await response.text());
 

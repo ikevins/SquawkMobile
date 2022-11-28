@@ -5,7 +5,7 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import styled from 'styled-components/native';
 import { ScreenHeight } from '../shared';
 import { colors } from '../colors';
-const { secondary, accent } = colors;
+const { secondary, accent, primary } = colors;
 
 const IconBg = styled.View`
     background-color: ${ secondary };
@@ -19,7 +19,7 @@ const IconBg = styled.View`
 
 const IconHeader = ({name, color, ...props}) => {
     return <IconBg style={{ ... props.style}}>
-        <MaterialCommunityIcons name={ name } size={ ScreenHeight * 0.08 } color = {color ? color : accent} />
+        <MaterialCommunityIcons name={ name } size={ ScreenHeight * 0.08 } color = {color ? color : primary} />
     </IconBg>
 };
 

@@ -1,5 +1,6 @@
 import React, {useState} from 'react';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 // styled components
 import styled from 'styled-components/native';
@@ -25,6 +26,18 @@ const Avatar = (props) => {
     const [headerText, setHeaderText] = useState('');
     const [loggingOut, setLoggingOut] = useState(false);
 
+    const accountDetails = async () => {
+        console.log('ad');
+
+    }
+
+    const changePassword = async () => {
+        setModalVisible(false);
+
+        console.log('cp');
+
+    }
+
     const onLogout = async () => {
         setLoggingOut(true);
 
@@ -34,6 +47,7 @@ const Avatar = (props) => {
         setModalVisible(false);
 
         //move to login
+        console.log('logout');
     }
 
     const showProfileModal = (user) => {
@@ -45,19 +59,25 @@ const Avatar = (props) => {
         setModalVisible(false);
     }
 
-    const onAvatarPress = () => {
-        showProfileModal('Jerry Walt');
+    const onAvatarPress = async () => {
+        //var _ud = await AsyncStorage.getItem('@MyApp_user');
+        //var ud = JSON.parse(_ud);
+        //var firstName = ud.firstName;
+        //var lastName = ud.lastName;
+        showProfileModal(/*firstName + ' ' + lastName*/);
     }
 
     return ( 
         <>
             <StyledView onPress={onAvatarPress} style={props.imgContainerStyle}>
-                <MaterialCommunityIcons name='account' size={35} color={accent} />
+                <MaterialCommunityIcons name='account' size={35} color={secondary} />
             </StyledView>
             <ProfileModal 
                 modalVisible={modalVisible} 
                 headerText={headerText} 
-                buttonHandler={onLogout} 
+                buttonHandler={accountDetails}
+                buttonHandler_2={changePassword} 
+                buttonHandler_3={onLogout}  
                 loggingOut={loggingOut} 
                 hideModal={hideModal}
             />

@@ -7,7 +7,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 // styled components
 import styled from 'styled-components/native';
 import { colors } from '../components/colors';
-const { primary, accent, secondary, darkGray } = colors;
+const { primary, accent, secondary, darkGray, white } = colors;
 
 // screens
 import Login from '../screens/Login';
@@ -15,6 +15,7 @@ import Signup from '../screens/Signup';
 import EmailVerification from '../screens/EmailVerification';
 import ForgotPassword from '../screens/ForgotPassword';
 import ResetPassword from '../screens/ResetPassword';
+import ChangePassword from '../screens/ChangePassword';
 import Dashboard from '../screens/Dashboard';
 import Avatar from '../components/Buttons/Avatar';
 
@@ -25,14 +26,14 @@ const RootStack = () => {
         <NavigationContainer>
             <Stack.Navigator
                 screenOptions={{
-                    headerTintColor: accent,
+                    headerTintColor: white,
                     headerStyle: {
-                        height: 100, 
-                        backgroundColor: secondary,
+                        height: 75, 
+                        backgroundColor: primary,
                         borderBottomWidth: 0,
                         shadowColor: 'transparent',
                         shadowOpacity: 0,
-                        elevation: 0
+                        elevation: 0,
                     },
                     headerLeftContainerStyle: {
                         paddingLeft: 10   
@@ -41,20 +42,21 @@ const RootStack = () => {
                         paddingRight: 25   
                     }
                 }}
-                initialRouteName='Login'
+                initialRouteName='Dashboard'
             >
                 <Stack.Screen name='Login' component={ Login } />
                 <Stack.Screen name='Signup' component={ Signup } />
                 <Stack.Screen name='EmailVerification' component={ EmailVerification } options={{headerTitle: 'Email Verification'}} />
                 <Stack.Screen name='ForgotPassword' component={ ForgotPassword } options={{headerTitle: 'Forgot Password'}} />
                 <Stack.Screen name='ResetPassword' component={ ResetPassword } options={{headerTitle: 'Reset Password'}} />
+                <Stack.Screen name='ChangePassword' component={ ChangePassword } options={{headerTitle: 'Change Password'}} />
                 <Stack.Screen 
                     name='Dashboard' 
                     component={ Dashboard } 
                     options={{
                         headerStyle: {
-                        height: 100, 
-                        backgroundColor: darkGray,
+                        height: 75, 
+                        backgroundColor: primary,
                         borderBottomWidth: 0,
                         shadowColor: 'transparent',
                         shadowOpacity: 0,

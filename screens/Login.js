@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { Formik } from 'formik';
-import { ActivityIndicator } from 'react-native';
+import { ActivityIndicator, Image } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import sha256 from './sha256.js';
 
 import { colors } from '../components/colors';
 const { primary } = colors;
@@ -14,6 +16,7 @@ import MsgBox from '../components/Texts/MsgBox';
 import RegularButton from '../components/Buttons/RegularButton';
 import PressableText from '../components/Texts/PressableText';
 import RowContainer from '../components/Containers/RowContainer';
+import BigText from '../components/Texts/BigText';
 
 const Login = ({navigation}) => {
     const [message, setMessage] = useState('');
@@ -26,38 +29,61 @@ const Login = ({navigation}) => {
     const handleLogin = async (credentials, setSubmitting) => {
         try {
             setMessage(null);
+
             // call backend
-            /*fetch('https://cop4331-1738.herokuapp.com/api/login');
-            fetch('https://cop4331-1738.herokuapp.com/api/login', {
+            const response = await fetch('https://cop4331-1738.herokuapp.com/api/login', {
                 method: 'POST',
                 headers: {
-                  Accept : 'application/json',
-                  'Content-Type': 'application/json',
+                    Accept: 'application/json',
+                    'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
-                    email: credentials.email,
-                    password: credentials.password,
-                }),
+                    login: credentials.email,
+                    password: sha256.hash(credentials.password)
+                  })
               });
-                let response = await fetch(
-                  'https://cop4331-1738.herokuapp.com/api/login',
-                );
-                let responseJson = await response.text();
-                setMessage(credentials.email + " " + credentials.password);
-                return responseJson;*/
-            // move to next page
-            moveTo('Dashboard');
+
+            // handle response 
+            var res = JSON.parse(await response.text());
+            if(res.id <= 0) {
+                setMessage('User/Password combination incorrect');
+            }
+            else {
+                // move to next page
+                const USER = {
+                    firstName:res.firstName,
+                    lastName:res.lastName,
+                    id:res.id
+                }
+
+                await AsyncStorage.setItem('@MyApp_user', JSON.stringify(USER));
+                moveTo('Dashboard');
+                setMessage('');
+            }
             setSubmitting(false);
         } catch (error) {
             setMessage('Login failed: ' + error.message);
             setSubmitting(false);
         }
-    }
+    };
 
     return (
     <MainContainer>
         <KeyboardAvoidingContainer>
-            <RegularText style={{ marginBottom: 25 }}>Enter your account credentials</RegularText>
+            <Image 
+                source={require('../assets/squawklogo.png')} 
+                style={{
+                    height: 250, 
+                    width: 300, 
+                    resizeMode: 'contain', 
+                    borderRadius: 50, 
+                    alignItems: 'center', 
+                    justifyContent: 'center', 
+                    alignSelf: 'center',
+                    marginTop: -10,
+                    marginBottom: 15
+                }}
+            />
 
             <Formik 
                 initialValues={{ email: '', password: '' }}
@@ -80,7 +106,7 @@ const Login = ({navigation}) => {
                             onChangeText={ handleChange('email') }
                             onBlur={ handleBlur('email') }
                             value={ values.email }
-                            style={{marginBottom: 25}}
+                            style={{marginBottom: 10}}
                         />
 
                         <StyledTextInput 
@@ -91,10 +117,10 @@ const Login = ({navigation}) => {
                             onBlur={ handleBlur('password') }
                             value={ values.password }
                             isPassword={true}
-                            style={{marginBottom: 25}}
+                            style={{marginBottom: 10}}
                         />
 
-                        <MsgBox style={{marginBottom: 25}} success={isSuccessMessage}>
+                        <MsgBox style={{marginBottom: 10}} success={isSuccessMessage}>
                             { message || ' '}
                         </MsgBox>
                         {!isSubmitting && <RegularButton onPress={ handleSubmit }>Login</RegularButton>}

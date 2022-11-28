@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Formik } from 'formik';
 import { ActivityIndicator } from 'react-native';
+import sha256 from './sha256';
 
 import { colors } from '../components/colors';
 const { primary } = colors;
@@ -14,7 +15,6 @@ import MsgBox from '../components/Texts/MsgBox';
 import RegularButton from '../components/Buttons/RegularButton';
 import IconHeader from '../components/Icons/IconHeader';
 import StyledCodeInput from '../components/Inputs/StyledCodeInput';
-import ResendTimer from '../components/Timers/ResendTimer';
 import styled from 'styled-components/native';
 import MessageModal from '../components/Modals/MessageModal';
 
@@ -29,14 +29,9 @@ const ResetPassword = ({navigation}) => {
     const [isSuccessMessage, setIsSuccessMessage] = useState(false);
 
     // code input
-    const MAX_CODE_LENGTH = 4;
+    const MAX_CODE_LENGTH = 6;
     const [code, setCode] = useState('');
     const [pinReady, setPinReady] = useState(false);
-
-    //resending email
-    const [activeResend, setActiveResend] = useState(false);
-    const [resendStatus, setResendStatus] = useState('Resend');
-    const [resendingEmail, setResendingEmail] = useState(false);
 
     //modal
     const [modalVisible, setModalVisible] = useState(false);
@@ -68,8 +63,18 @@ const ResetPassword = ({navigation}) => {
     const handleOnSubmit = async (credentials, setSubmitting) => {
         try {
             setMessage(null);
-
-            // call backend
+            const response = await fetch('https://cop4331-1738.herokuapp.com/api/verifyemail', {
+                method: 'POST',
+                headers: {
+                    Accept: 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    userID: userId,
+                    oldPassword: oldPassword.value,
+                    newPassword: hashedNew
+                })
+            });
 
             setSubmitting(false);
             return showModal('success', 'All Good!', 'Your password has been reset.', 'Proceed');
@@ -79,46 +84,14 @@ const ResetPassword = ({navigation}) => {
         }
     };
 
-    const resendEmail = async (triggerTimer) => {
-        try {
-            setResendingEmail(true);
-
-            // make request to backend
-            // update setResendStatus() to 'Failed' or 'Sent!'
-
-            setResendingEmail(false);
-            // hold on briefly
-            setTimeout(() => {
-                setResendStatus('Resend');
-                setActiveResend(false);
-                triggerTimer();
-
-            }, 5000);
-
-        } catch (error) {
-            setResendingEmail(false);
-            setResendStatus('Failed!');
-            alert('Email Resend Failed: ' + error.message);
-        }
-    };
-
     return (
     <MainContainer>
         <KeyboardAvoidingContainer>
             <RegularText style={{ textAlign: 'center' }}>
-                Enter the 4-digit code sent to your email
+                Enter the 6-digit code sent to your email
             </RegularText>
 
             <StyledCodeInput code={code} setCode={setCode} maxLength={MAX_CODE_LENGTH} setPinReady={setPinReady} />
-            
-            <ResendTimer 
-                    activeResend={activeResend} 
-                    setActiveResend={setActiveResend} 
-                    resendStatus={resendStatus} 
-                    resendingEmail={resendingEmail} 
-                    resendEmail={resendEmail}
-                    style={{marginBottom: 25}}
-                />
 
             <Formik 
                 initialValues={{ newPassword: '', confirmNewPassword: ''}}
