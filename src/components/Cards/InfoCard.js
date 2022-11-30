@@ -1,5 +1,5 @@
 import React from 'react';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { Image } from 'react-native';
 
 // styled components
 import styled from 'styled-components/native';
@@ -44,14 +44,14 @@ const InfoCard = ({result, ...props}) => {
     return ( 
         <CardView style={{ ...props?.style }}>
             <CardSection style={{width: '35%'}}>
-            {/*image*/}
+                <Image style ={{height: 115, width: 120}} source={{ uri: result.image_url }}/>
             </CardSection>
             <CardSection style={{width: '65%'}}>
                 <BigText style={{fontSize: 16, fontWeight: 'bold'}}>{result.name}</BigText>
-                <RegularText style={{fontSize: 16, color: tertiary}}>{result.rating + result.review_count}</RegularText>
-                <RegularText style={{fontSize: 16}}>${result.price + result.title}</RegularText>
-                <SmallText style={{fontSize: 13, color: lightGray}}>{result.address1}</SmallText>
-                <SmallText style={{fontSize: 13, color: lightGray}}>{result.city + result.state + result.zip_code}</SmallText>
+                <RegularText style={{fontSize: 16, color: tertiary}}>Rating: {result.rating} Reviews: {result.review_count}</RegularText>
+                <RegularText style={{fontSize: 16}}>Price: {result.price} {result.title}</RegularText>
+                <SmallText style={{fontSize: 13, color: lightGray}}>{result.location.display_address[0]}</SmallText>
+                <SmallText style={{fontSize: 13, color: lightGray}}>{result.location.display_address[1]}</SmallText>
             </CardSection>
         </CardView>
     )
