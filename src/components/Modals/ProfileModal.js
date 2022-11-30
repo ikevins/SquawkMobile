@@ -29,7 +29,7 @@ const ProfileModal = ({modalVisible, buttonHandler, headerText, loggingOut, hide
             <ModalView>
                 <StyledView>
                     <Image 
-                        source={require('../../assets/squawkicon.png')} 
+                        source={require('../../../assets/squawkicon.png')} 
                         style={{
                             height: 120, 
                             width: 120, 

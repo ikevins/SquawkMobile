@@ -38,28 +38,23 @@ const CardSection = styled.View`
 
 `
 
-const InfoCard = ({image_url, name, title, rating, review_count, price, color, address1, city, zip_code, state, ...props}) => {
-    return <CardView style={{ ...props?.style }}>
-        <CardSection style={{width: '35%'}}>
-            <MaterialCommunityIcons 
-                name={image_url} 
-                size={ScreenHeight * 0.1} 
-                color={color ? color : accent} 
-                style={{
-                    marginLeft: 28,
-                    marginTop: 8
-                }}
-            />
-        </CardSection>
-        <CardSection style={{width: '60%'}}>
-            <BigText style={{fontWeight: 'bold'}}>{name}</BigText>
-            <RegularText style={{fontSize: 16, color: tertiary}}>{rating + review_count}</RegularText>
-            <RegularText style={{fontSize: 16}}>${price + title}</RegularText>
-            <SmallText style={{fontSize: 13, color: lightGray}}>{address1}</SmallText>
-            <SmallText style={{fontSize: 13, color: lightGray}}>{city + state + zip_code}</SmallText>
+const InfoCard = ({...props}) => {
+    const business = props.business;
 
+    console.log('reached infocard file')
+
+    return ( <CardView style={{ ...props?.style }}>
+        <CardSection style={{width: '35%'}}>
+        {/*image*/}
+        </CardSection>
+        <CardSection style={{width: '65%'}}>
+            <BigText style={{fontWeight: 'bold'}}>{business.name}</BigText>
+            <RegularText style={{fontSize: 16, color: tertiary}}>{business.rating + business.review_count}</RegularText>
+            <RegularText style={{fontSize: 16}}>${business.price + business.title}</RegularText>
+            <SmallText style={{fontSize: 13, color: lightGray}}>{business.address1}</SmallText>
+            <SmallText style={{fontSize: 13, color: lightGray}}>{business.city + business.state + business.zip_code}</SmallText>
         </CardSection>
     </CardView>
-};
+)};
 
 export default InfoCard;

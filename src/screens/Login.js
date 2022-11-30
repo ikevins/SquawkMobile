@@ -71,7 +71,7 @@ const Login = ({navigation}) => {
     <MainContainer>
         <KeyboardAvoidingContainer>
             <Image 
-                source={require('../assets/squawklogo.png')} 
+                source={require('../../assets/squawklogo.png')} 
                 style={{
                     height: 250, 
                     width: 300, 
