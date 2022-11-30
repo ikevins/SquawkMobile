@@ -17,7 +17,7 @@ const Info = ({ results }) => {
         renderItem={({ item }) => {
           return (
             <View>
-              <InfoCard result={item} />
+              <InfoCard result={ item } />
             </View>
           );
         }}

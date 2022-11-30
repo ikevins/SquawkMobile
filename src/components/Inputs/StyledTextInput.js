@@ -47,13 +47,11 @@ const StyledTextInput = ({ icon, label, isPassword, ...props }) => {
     const customOnBlur = () => {
         props?.onBlur;
         setInputBackgroundColor(primary);
-
     }
     
     const customOnFocus = () => {
         props?.onFocus;
         setInputBackgroundColor(primary);
-        
     }
 
     return (<View>

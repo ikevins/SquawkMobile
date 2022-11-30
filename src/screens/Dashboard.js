@@ -15,6 +15,7 @@ import SearchResults from "../components/Search/SearchResults";
 
 const Dashboard = () => {
     const [term, setTerm] = useState("");
+    const [location, setLocation] = useState("");
     const [searchApi, results] = SearchResults();
     var apiKey = 'ygXg7nrp2TH3X_CpYBzRw-x0QN1-D5owhXyg2h6kI80cxwG-gDh3SNjpxU3X4T55tj-7PyQL7WZ8U2_rT0hxrkRU5nBXZnZGBjFNAOyWWEJ8aPhP4W3J4FPXrZVQY3Yx';
 
@@ -22,14 +23,21 @@ const Dashboard = () => {
     <MainContainer style={{ paddingTop: 0, paddingLeft: 0, paddingRight: 0 }}  >
         <MainContainer style= {{ backgroundColor: 'transparent' }}>
             <SearchBar
-            term={term}
-            onTermChange={setTerm}
-            onTermSubmit={() => searchApi(term)}
+                term={term}
+                onTermChange={setTerm}
+                placeholder='Search term here'
+                icon="magnify" 
+            />
+            <SearchBar
+                term={location}
+                onTermChange={setLocation}
+                onTermSubmit={() => searchApi(term, location)}
+                placeholder='Location here'
+                icon="map-marker" 
             />
             <View>
                 <Info
                 results={results}
-                title="Cost Effective"
                 />
             </View>
             {/*<RegularButton onPress={} style={{ marginBottom: 20 }}>Yelp Fusion</RegularButton>*/}

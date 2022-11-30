@@ -6,6 +6,7 @@ export const colors = {
     darkGray: '#111827',
     lightGray: '#a5a5a5',
     white: '#fff',
+    opaqueWhite: 'rgba(255, 255, 255, 0.25)',
     black: '#000',
     success: '#22C55E',
     fail: '#EF4444',
