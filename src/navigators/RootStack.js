@@ -18,8 +18,6 @@ import ResetPassword from '../screens/ResetPassword';
 import ChangePassword from '../screens/ChangePassword';
 import Dashboard from '../screens/Dashboard';
 import Avatar from '../components/Buttons/Avatar';
-import SearchScreen from "../screens/SearchScreen";
-import ResultsShowScreen from "../screens/ResultsShowScreen";
 
 const Stack = createStackNavigator();
 
@@ -67,8 +65,6 @@ const RootStack = () => {
                         headerRight: () => <Avatar />,
                     }}
                 />
-                <Stack.Screen name='SearchScreen' component={ SearchScreen } options={{headerTitle: 'Search Screen'}} />
-                <Stack.Screen name='ResultsShowScreen' component={ ResultsShowScreen } options={{headerTitle: 'Results Show Screen'}} />
             </Stack.Navigator>
     </NavigationContainer>
     );

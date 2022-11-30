@@ -28,6 +28,7 @@ const CardView = styled.View`
     border-left-width: 0px; 
     border-right-width: 0px;
     border-color: rgba(253,145,52,0.7);
+    margin-top: 10px;
 
 `;
 
@@ -38,23 +39,22 @@ const CardSection = styled.View`
 
 `
 
-const InfoCard = ({...props}) => {
-    const business = props.business;
+const InfoCard = ({result, ...props}) => {
 
-    console.log('reached infocard file')
-
-    return ( <CardView style={{ ...props?.style }}>
-        <CardSection style={{width: '35%'}}>
-        {/*image*/}
-        </CardSection>
-        <CardSection style={{width: '65%'}}>
-            <BigText style={{fontWeight: 'bold'}}>{business.name}</BigText>
-            <RegularText style={{fontSize: 16, color: tertiary}}>{business.rating + business.review_count}</RegularText>
-            <RegularText style={{fontSize: 16}}>${business.price + business.title}</RegularText>
-            <SmallText style={{fontSize: 13, color: lightGray}}>{business.address1}</SmallText>
-            <SmallText style={{fontSize: 13, color: lightGray}}>{business.city + business.state + business.zip_code}</SmallText>
-        </CardSection>
-    </CardView>
-)};
+    return ( 
+        <CardView style={{ ...props?.style }}>
+            <CardSection style={{width: '35%'}}>
+            {/*image*/}
+            </CardSection>
+            <CardSection style={{width: '65%'}}>
+                <BigText style={{fontSize: 16, fontWeight: 'bold'}}>{result.name}</BigText>
+                <RegularText style={{fontSize: 16, color: tertiary}}>{result.rating + result.review_count}</RegularText>
+                <RegularText style={{fontSize: 16}}>${result.price + result.title}</RegularText>
+                <SmallText style={{fontSize: 13, color: lightGray}}>{result.address1}</SmallText>
+                <SmallText style={{fontSize: 13, color: lightGray}}>{result.city + result.state + result.zip_code}</SmallText>
+            </CardSection>
+        </CardView>
+    )
+};
 
 export default InfoCard;
