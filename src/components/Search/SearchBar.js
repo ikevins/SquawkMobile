@@ -32,8 +32,15 @@ const LeftIcon = styled.View`
     padding-right: 10px;
 `;
 
+const RightIcon = styled.TouchableOpacity`
+    position: absolute;
+    top: 9px;
+    right: 15px;
+    z-index: 1;
+`;
 
-const SearchBar = ({ label, icon, term, onTermChange, onTermSubmit, placeholder, ...props }) => {
+
+const SearchBar = ({ location, isLocation, label, icon, term, onTermChange, onTermSubmit, placeholder, ...props }) => {
   const [inputBackgroundColor, setInputBackgroundColor] = useState(primary);
 
   const customOnBlur = () => {
@@ -50,7 +57,7 @@ const SearchBar = ({ label, icon, term, onTermChange, onTermSubmit, placeholder,
   return (
     <View>
         <LeftIcon>
-            <MaterialCommunityIcons name={ icon } size={ 30 } color={ secondary } />
+            <MaterialCommunityIcons name={ icon } size={ 28 } color={ secondary } />
         </LeftIcon>
       <InputField
         { ...props }
@@ -65,6 +72,11 @@ const SearchBar = ({ label, icon, term, onTermChange, onTermSubmit, placeholder,
         onChangeText={onTermChange}
         onEndEditing={onTermSubmit}
       />
+      {/*{isLocation && <RightIcon onPress={() => {
+        console.log('you touched me');
+      }}>
+        <MaterialCommunityIcons name={ "crosshairs-gps" } size={ 28 } color={ secondary } />
+      </RightIcon>}*/}
     </View>
   );
 };

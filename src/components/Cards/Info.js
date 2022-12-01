@@ -12,7 +12,7 @@ const Info = ({ results }) => {
       <FlatList
         vertical
         data={results}
-        showsHorizontalScrollIndicator={false}
+        showsVerticalScrollIndicator={false}
         keyExtractor={(result) => result.id}
         renderItem={({ item }) => {
           return (
