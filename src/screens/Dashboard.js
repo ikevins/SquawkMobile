@@ -31,7 +31,6 @@ const Dashboard = () => {
           let location = await Location.getCurrentPositionAsync({});
           let address = await Location.reverseGeocodeAsync(location.coords);
           setLocation(address[0].city + ', ' + address[0].region);
-          console.log(address[0].city + ', ' + address[0].region);
         })();
       }, []);
 
@@ -57,9 +56,10 @@ const Dashboard = () => {
             <View>
                 <Info
                 results={results}
+                term={term}
+                location={location}
                 />
             </View>
-            {/*<RegularButton onPress={} style={{ marginBottom: 20 }}>Yelp Fusion</RegularButton>*/}
        </MainContainer>
     </MainContainer>
     );

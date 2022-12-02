@@ -72,11 +72,11 @@ const SearchBar = ({ location, isLocation, label, icon, term, onTermChange, onTe
         onChangeText={onTermChange}
         onEndEditing={onTermSubmit}
       />
-      {/*{isLocation && <RightIcon onPress={() => {
-        console.log('you touched me');
+      {isLocation && <RightIcon onPress={() => {
+        
       }}>
         <MaterialCommunityIcons name={ "crosshairs-gps" } size={ 28 } color={ secondary } />
-      </RightIcon>}*/}
+      </RightIcon>}
     </View>
   );
 };
