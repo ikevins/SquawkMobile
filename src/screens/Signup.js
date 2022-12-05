@@ -45,7 +45,7 @@ const Signup = ({navigation}) => {
             // handle response 
             var res = JSON.parse(await response.text());
 
-            const USER = {
+            const newUser = {
                 firstName:res.firstName,
                 lastName:res.lastName,
                 _id:res._id,
@@ -54,7 +54,7 @@ const Signup = ({navigation}) => {
                 email:res.email
             }
 
-            await AsyncStorage.setItem('@MyApp_user', JSON.stringify(USER));
+            await AsyncStorage.setItem('@MyApp_newUser', JSON.stringify(newUser));
 
             // move to next page
             moveTo('EmailVerification');

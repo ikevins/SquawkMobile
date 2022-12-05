@@ -45,18 +45,20 @@ const Login = ({navigation}) => {
 
             // handle response 
             var res = JSON.parse(await response.text());
+            console.log(res);
             if(res.id <= 0) {
                 setMessage('User/Password combination incorrect');
             }
             else {
                 // move to next page
-                const USER = {
+                const user = {
                     firstName:res.firstName,
                     lastName:res.lastName,
-                    id:res.id
+                    _id:res._id,
+                    email:res.email
                 }
 
-                await AsyncStorage.setItem('@MyApp_user', JSON.stringify(USER));
+                await AsyncStorage.setItem('@MyApp_user', JSON.stringify(user));
                 moveTo('Dashboard');
                 setMessage('');
             }

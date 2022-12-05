@@ -35,8 +35,8 @@ const EmailVerification = ({navigation}) => {
 
     const buttonHandler = () => {
         if (modalMessageType === 'success') {
-            // move user to dashboard if email verification was completed
-            moveTo('Dashboard');
+            // move user to login if email verification was completed
+            moveTo('Login');
         }
         setModalVisible(false);
     }
@@ -50,7 +50,7 @@ const EmailVerification = ({navigation}) => {
     }
 
     const handleEmailVerification = async () => {
-        var _ud = await AsyncStorage.getItem('@MyApp_user');
+        var _ud = await AsyncStorage.getItem('@MyApp_newUser');
         var ud = JSON.parse(_ud);
         var userId = ud._id;
 

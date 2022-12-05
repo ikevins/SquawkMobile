@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useNavigation } from '@react-navigation/native';
 
 // styled components
 import styled from 'styled-components/native';
@@ -21,33 +22,39 @@ const StyledView = styled.TouchableOpacity`
 `;
 
 const Avatar = (props) => {
-    //modal
+    // modal
     const [modalVisible, setModalVisible] = useState(false);
     const [headerText, setHeaderText] = useState('');
     const [loggingOut, setLoggingOut] = useState(false);
 
+    const navigation = useNavigation();
+
+    const moveTo = (screen, payLoad) => {
+        navigation.navigate(screen, {...payLoad});
+    };
+
     const accountDetails = async () => {
         console.log('ad');
-
     }
 
     const changePassword = async () => {
         setModalVisible(false);
 
-        console.log('cp');
-
+        // move to login
+        moveTo('ChangePassword');
     }
 
     const onLogout = async () => {
         setLoggingOut(true);
 
-        // clear user credentials
-        
+        // clear local storage
+        AsyncStorage.clear();
+
         setLoggingOut(false);
         setModalVisible(false);
 
-        //move to login
-        console.log('logout');
+        // move to login
+        moveTo('Login');
     }
 
     const showProfileModal = (user) => {
@@ -60,10 +67,10 @@ const Avatar = (props) => {
     }
 
     const onAvatarPress = async () => {
-        //var _ud = await AsyncStorage.getItem('@MyApp_user');
-        //var ud = JSON.parse(_ud);
-        //var firstName = ud.firstName;
-        //var lastName = ud.lastName;
+        var _ud = await AsyncStorage.getItem('@MyApp_user');
+        var ud = JSON.parse(_ud);
+        var firstName = ud.firstName;
+        var lastName = ud.lastName;
         showProfileModal(/*firstName + ' ' + lastName*/);
     }
 

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Formik } from 'formik';
 import { ActivityIndicator } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import { colors } from '../components/colors';
 const { primary } = colors;
@@ -38,13 +39,18 @@ const ForgotPassword = ({navigation}) => {
                 })
             });
             if (response.ok) {
-                //console.log("That worked ", email);
+                // Store user info
+                var res = JSON.parse(await response.text());
+                const userForgotPassword = {
+                    _id:res._id,
+                }
+                await AsyncStorage.setItem('@MyApp_userForgotPassword', JSON.stringify(userForgotPassword));
                 // move to next page
                 moveTo('ResetPassword');
                 setSubmitting(false);
             }
             else {
-                //console.log("That didn't seem to work", email);
+
                 setVerifying(false);
                 setMessage('Hmm... It seems that we cant find that email address :(');
             }

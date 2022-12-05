@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Formik } from 'formik';
 import { ActivityIndicator } from 'react-native';
 import sha256 from './sha256';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import { colors } from '../components/colors';
 const { primary } = colors;
@@ -61,9 +62,13 @@ const ResetPassword = ({navigation}) => {
     }
 
     const handleOnSubmit = async (credentials, setSubmitting) => {
+        var _ud = await AsyncStorage.getItem('@MyApp_userForgotPassword');
+        var ud = JSON.parse(_ud);
+        var userId = ud._id;
+
         try {
             setMessage(null);
-            const response = await fetch('https://cop4331-1738.herokuapp.com/api/verifyemail', {
+            const response = await fetch('https://cop4331-1738.herokuapp.com/api/resetpassword', {
                 method: 'POST',
                 headers: {
                     Accept: 'application/json',
@@ -71,8 +76,8 @@ const ResetPassword = ({navigation}) => {
                 },
                 body: JSON.stringify({
                     userID: userId,
-                    oldPassword: oldPassword.value,
-                    newPassword: hashedNew
+                    code: code,
+                    newPassword: sha256.hash(credentials.newPassword)
                 })
             });
 
