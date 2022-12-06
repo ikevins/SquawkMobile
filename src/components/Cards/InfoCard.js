@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { Image } from 'react-native';
 
 // styled components
@@ -10,6 +10,8 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import RegularText from '../Texts/RegularText';
 import SmallText from '../Texts/SmallText';
 import BigText from '../Texts/BigText';
+import { TouchableOpacity } from 'react-native-gesture-handler';
+import InfoCardModal from '../Modals/InfoCardModal';
 
 const { primary, secondary, black, accent, lightGray, tertiary } = colors;
 
@@ -32,6 +34,10 @@ const CardSection = styled.View`
     justify-content: space-between;
     align-items: flex-start;
     marginRight: 20px;
+`
+const FoodType = styled.View`
+    backgroundColor: lightgray;
+    padding: 2px;
 
 `
 
@@ -111,6 +117,9 @@ const fiveStar = (
 
 const InfoCard = ({result, ...props}) => {
 
+    const [modalVisible, setModalVisible] = useState(false);
+    const [distance, setDistance] = useState('');
+
     if (result.rating==1) {
         result.rating=oneStar;
     }
@@ -143,26 +152,36 @@ const InfoCard = ({result, ...props}) => {
         result.price='Unknown';
     }
 
-    return ( 
+    const showInfoCardModal = () => {
+        setModalVisible(true);
+      }
+    
+    const onInfoCardPress = async () => {
+        showInfoCardModal();
+    }
+    
+    const hideModal = () => {
+        setModalVisible(false);
+    }
+
+    return (
+        <TouchableOpacity activeOpacity={0.5} onPress={onInfoCardPress}>
         <CardView style={{ ...props?.style }}>
             <CardSection style={{width: '35%'}}>
                 <Image style ={{height: 130, width: 120, borderRadius: 10}} source={{ uri: result.image_url }}/>
             </CardSection>
             <CardSection style={{width: '65%'}}>
                 <BigText style={{ marginTop: -5, fontSize: 18, fontWeight: 'bold'}}>{result.name}</BigText>
-                <RegularText 
-                    style={{ fontSize: 16 }}>
-                        Rating: {result.rating}
-                </RegularText>
-                <RegularText 
-                    style={{ fontSize: 16 }}>
-                        Reviews: {result.review_count}
-                </RegularText>
-                <RegularText style={{fontSize: 16}}>Price: {result.price}</RegularText>
-                <SmallText style={{fontSize: 13, color: lightGray}}>{result.location.display_address[0]}</SmallText>
-                <SmallText style={{fontSize: 13, color: lightGray}}>{result.location.display_address[1]}</SmallText>
+                <RegularText style={{ fontSize: 16 }}>{result.rating}({result.review_count} reviews)</RegularText>
+                <RegularText style={{fontSize: 16}}>{result.categories[0].title} {result.price}</RegularText>
+                <RegularText style={{fontSize: 16}}>Distance: {result.distance}</RegularText>
             </CardSection>
         </CardView>
+        <InfoCardModal 
+            modalVisible={modalVisible} 
+            hideModal={hideModal} 
+            result={result}/>
+        </TouchableOpacity>
     )
 };
 

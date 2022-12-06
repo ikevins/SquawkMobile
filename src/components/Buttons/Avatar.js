@@ -71,7 +71,7 @@ const Avatar = (props) => {
         var ud = JSON.parse(_ud);
         var firstName = ud.firstName;
         var lastName = ud.lastName;
-        showProfileModal(/*firstName + ' ' + lastName*/);
+        showProfileModal(firstName + ' ' + lastName);
     }
 
     return ( 

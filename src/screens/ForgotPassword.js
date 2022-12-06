@@ -26,7 +26,6 @@ const ForgotPassword = ({navigation}) => {
     const handleOnSubmit = async (credentials, setSubmitting) => {
         try {
             setMessage(null);
-
             // call backend
             const response = await fetch('https://cop4331-1738.herokuapp.com/api/sendrecoveryemail', {
                 method: 'POST',

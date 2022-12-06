@@ -45,7 +45,6 @@ const Login = ({navigation}) => {
 
             // handle response 
             var res = JSON.parse(await response.text());
-            console.log(res);
             if(res.id <= 0) {
                 setMessage('User/Password combination incorrect');
             }

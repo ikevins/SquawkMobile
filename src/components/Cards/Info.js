@@ -1,20 +1,9 @@
 import React, {useState} from "react";
-import { TouchableOpacity, SafeAreaView, FlatList } from "react-native";
+import { TouchableOpacity, SafeAreaView, FlatList, View } from "react-native";
 import SmallText from "../Texts/SmallText";
 import InfoCard from "./InfoCard";
-import InfoCardModal from '../Modals/InfoCardModal';
 
 const Info = ({ results, term, location }) => {
-  const [modalVisible, setModalVisible] = useState(false);
-
-  const showProfileModal = (user) => {
-    setHeaderText(user);
-    setModalVisible(true);
-}
-
-const hideModal = () => {
-    setModalVisible(false);
-}
 
   if (!results.length) {
     return null;
@@ -23,6 +12,8 @@ const hideModal = () => {
   if (term === '') {
     term='all';
   }
+
+  results.distance = results.distance/1600;
 
   return (
     <SafeAreaView>
@@ -34,16 +25,9 @@ const hideModal = () => {
         keyExtractor={(result) => result.id}
         renderItem={({ item }) => {
           return (
-            <TouchableOpacity 
-              activeOpacity={0.5} 
-              onPress={() => 
-                <InfoCardModal
-                modalVisible={true} 
-                hideModal={false}
-                />
-              }>
+            <View>
               <InfoCard result={ item } />
-            </TouchableOpacity>
+            </View>
           );
         }}
       />

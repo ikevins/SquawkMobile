@@ -80,9 +80,14 @@ const ResetPassword = ({navigation}) => {
                     newPassword: sha256.hash(credentials.newPassword)
                 })
             });
-
-            setSubmitting(false);
-            return showModal('success', 'All Good!', 'Your password has been reset.', 'Proceed');
+            if (response.ok) {
+                setSubmitting(false);
+                return showModal('success', 'All Good!', 'Your password has been reset.', 'Proceed');
+            }
+            else {
+                setSubmitting(false);
+                return showModal('failed', 'Failed!', 'Please verify the code is correct.', 'Retry');
+            }
         } catch (error) {
             setSubmitting(false);
             return showModal('failed', 'Failed!', error.message, 'Close');

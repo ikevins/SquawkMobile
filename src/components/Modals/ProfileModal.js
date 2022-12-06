@@ -42,7 +42,7 @@ const ProfileModal = ({modalVisible, buttonHandler, headerText, loggingOut, hide
                     />
                 </StyledView>
                 <BigText style={{fontSize: 25, color: white, marginVertical: 10}}>{headerText}</BigText>
-                <RegularButton onPress={buttonHandler} style={{ marginBottom: 10 }}>Account Details</RegularButton>
+                {/*<RegularButton onPress={buttonHandler} style={{ marginBottom: 10 }}>Account Details</RegularButton>*/}
                 <RegularButton onPress={buttonHandler_2} style={{ marginBottom: 10 }}>Change Password</RegularButton>
                 {!loggingOut && <RegularButton onPress={buttonHandler_3}>Logout</RegularButton>}
                 {loggingOut && <RegularButton disabled={true}><ActivityIndicator size='small' color={primary} /></RegularButton>}

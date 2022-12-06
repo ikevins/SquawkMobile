@@ -15,38 +15,72 @@ import StyledTextInput from '../components/Inputs/StyledTextInput';
 import MsgBox from '../components/Texts/MsgBox';
 import RegularButton from '../components/Buttons/RegularButton';
 import PressableText from '../components/Texts/PressableText';
+import MessageModal from '../components/Modals/MessageModal';
 
 const ChangePassword = ({navigation}) => {
     const [message, setMessage] = useState('');
     const [isSuccessMessage, setIsSuccessMessage] = useState(false);
+
+    //modal
+    const [modalVisible, setModalVisible] = useState(false);
+    const [modalMessageType, setModalMessageType] = useState('');
+    const [headerText, setHeaderText] = useState('');
+    const [modalMessage, setModalMessage] = useState('');
+    const [buttonText, setButtonText] = useState('');
 
     const moveTo = (screen, payLoad) => {
         navigation.navigate(screen, {...payLoad});
     };
 
     const handleOnSubmit = async (credentials, setSubmitting) => {
+        var _ud = await AsyncStorage.getItem('@MyApp_user');
+        var ud = JSON.parse(_ud);
+        var userId = ud._id;
         try {
             setMessage(null);
-            const response = await fetch('https://cop4331-1738.herokuapp.com/api/verifyemail', {
-                method: 'POST',
+            // call backend
+            const response = await fetch('https://cop4331-1738.herokuapp.com/api/changepassword', {
+                method: 'PATCH',
                 headers: {
                     Accept: 'application/json',
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
                     userID: userId,
-                    oldPassword: oldPassword.value,
-                    newPassword: hashedNew
+                    oldPassword: sha256.hash(credentials.oldPassword),
+                    newPassword: sha256.hash(credentials.newPassword)
                 })
             });
+            if (response.ok) {
+                setSubmitting(false);
+                return showModal('success', 'All Good!', 'Your password has been changed.', 'Proceed');
+            }
+            else {
+                setSubmitting(false);
+                return showModal('failed', 'Failed!', 'Please verify your current password is correct.', 'Retry');
+            }
 
-            setSubmitting(false);
-            return showModal('success', 'All Good!', 'Your password has been reset.', 'Proceed');
         } catch (error) {
             setSubmitting(false);
             return showModal('failed', 'Failed!', error.message, 'Close');
         }
     };
+
+    const buttonHandler = () => {
+        if (modalMessageType === 'success') {
+            // move user to login if email verification was completed
+            moveTo('Dashboard');
+        }
+        setModalVisible(false);
+    }
+
+    const showModal = (type, headerText, message, buttonText) => {
+        setModalMessageType(type);
+        setHeaderText(headerText);
+        setModalMessage(message);
+        setButtonText(buttonText);
+        setModalVisible(true);
+    }
 
 
     return (
@@ -56,7 +90,7 @@ const ChangePassword = ({navigation}) => {
             <Formik 
                 initialValues={{ oldPassword: '', newPassword: '', confirmNewPassword: '' }}
                 onSubmit={(values, {setSubmitting}) => {
-                    if(values.oldPassword == '' || values.newPassword == "" || values.confirmNewPassword == "") {
+                    if(values.oldPassword == '' || values.newPassword == '' || values.confirmNewPassword == '') {
                         setMessage('Please fill in all fields');
                         setSubmitting(false);
                     } 
@@ -75,9 +109,9 @@ const ChangePassword = ({navigation}) => {
                             label="Current Password" 
                             icon="lock-open" 
                             placeholder="Enter password"
-                            onChangeText={ handleChange('password') }
-                            onBlur={ handleBlur('password') }
-                            value={ values.password }
+                            onChangeText={ handleChange('oldPassword') }
+                            onBlur={ handleBlur('oldPassword') }
+                            value={ values.oldPassword }
                             isPassword={true}
                             style={{marginBottom: 15}}
                         />
@@ -86,9 +120,9 @@ const ChangePassword = ({navigation}) => {
                             label="New Password" 
                             icon="lock" 
                             placeholder="Enter password"
-                            onChangeText={ handleChange('confirmPassword') }
-                            onBlur={ handleBlur('confirmPassword') }
-                            value={ values.confirmPassword }
+                            onChangeText={ handleChange('newPassword') }
+                            onBlur={ handleBlur('newPassword') }
+                            value={ values.newPassword }
                             isPassword={true}
                             style={{marginBottom: 15}}
                         />
@@ -97,9 +131,9 @@ const ChangePassword = ({navigation}) => {
                             label="Confirm New Password" 
                             icon="lock" 
                             placeholder="Enter password"
-                            onChangeText={ handleChange('confirmPassword') }
-                            onBlur={ handleBlur('confirmPassword') }
-                            value={ values.confirmPassword }
+                            onChangeText={ handleChange('confirmNewPassword') }
+                            onBlur={ handleBlur('confirmNewPassword') }
+                            value={ values.confirmNewPassword }
                             isPassword={true}
                             style={{marginBottom: 15}}
                         />
@@ -113,11 +147,17 @@ const ChangePassword = ({navigation}) => {
                             <ActivityIndicator size="small" color={ primary } />
                             </RegularButton>
                         )}
-
-                            <PressableText style={{paddingVertical: 15}} onPress={() => {moveTo('Login')}}>Sign in to an existing account</PressableText>
                     </>
                 )}
             </Formik>
+            <MessageModal 
+                    modalVisible={modalVisible} 
+                    buttonHandler={buttonHandler} 
+                    type={modalMessageType} 
+                    headerText={headerText}   
+                    message={modalMessage}
+                    buttonText={buttonText}
+                />
         </KeyboardAvoidingContainer>
     </MainContainer>
 )}
