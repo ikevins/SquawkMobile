@@ -17,6 +17,8 @@ const StyledView = styled.TouchableOpacity`
     border-radius: 15px;
     justify-content: center;
     align-items: center;
+    margin-top: 10px;
+    margin-right: 10px;
     border-width: 2px;
     border-color: ${secondary};
 `;

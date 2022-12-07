@@ -42,7 +42,7 @@ const RootStack = () => {
                         paddingRight: 25   
                     }
                 }}
-                initialRouteName='Login'
+                initialRouteName='Dashboard'
             >
                 <Stack.Screen name='Login' component={ Login } />
                 <Stack.Screen name='Signup' component={ Signup } />
@@ -50,21 +50,7 @@ const RootStack = () => {
                 <Stack.Screen name='ForgotPassword' component={ ForgotPassword } options={{headerTitle: 'Forgot Password'}} />
                 <Stack.Screen name='ResetPassword' component={ ResetPassword } options={{headerTitle: 'Reset Password'}} />
                 <Stack.Screen name='ChangePassword' component={ ChangePassword } options={{headerTitle: 'Change Password'}} />
-                <Stack.Screen 
-                    name='Dashboard' 
-                    component={ Dashboard } 
-                    options={{
-                        headerStyle: {
-                        height: 75, 
-                        backgroundColor: primary,
-                        borderBottomWidth: 0,
-                        shadowColor: 'transparent',
-                        shadowOpacity: 0,
-                        elevation: 0
-                        },
-                        headerRight: () => <Avatar />,
-                    }}
-                />
+                <Stack.Screen name='Dashboard' component={ Dashboard }/>
             </Stack.Navigator>
     </NavigationContainer>
     );

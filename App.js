@@ -1,11 +1,11 @@
 import { StatusBar } from 'expo-status-bar';
-import RootStack from './src/navigators/RootStack';
+import Navigator from './src/navigators/Navigator';
 
 export default function App() {
   return (
     <>
       <StatusBar style="light" />
-      <RootStack />
+      <Navigator />
     </>
   );
 }
