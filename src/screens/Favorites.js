@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react'
-import { View } from 'react-native'
+import { View, RefreshControl, FlatList } from 'react-native'
 import { colors } from '../components/colors'
 import styled from 'styled-components/native';
 import RegularText from '../components/Texts/RegularText';
@@ -7,6 +7,8 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import RegularButton from '../components/Buttons/RegularButton';
 import Info from '../components/Cards/Info';
 import MainContainer from '../components/Containers/MainContainer';
+import InfoCard from '../components/Cards/InfoCard';
+import FavoriteCard from '../components/Cards/FavoriteCard';
 const { primary} = colors;
 
 const FavoritesView = styled.View`
@@ -20,6 +22,7 @@ const Favorites = () => {
     const [term, setTerm] = useState("");
     const [location, setLocation] = useState(null);
     const [results, setResults] = useState([]);
+    const [Refresh, setRefresh] = useState(false);
 
     const getFavorites = async () => {
         var _ud = await AsyncStorage.getItem('@MyApp_user');
@@ -48,16 +51,34 @@ const Favorites = () => {
         getFavorites();
       }, []);
 
+      const onRefreshing = () => {
+        setRefresh(true);
+        setRefresh(false)
+        getFavorites();
+      }
+
     return (
         <MainContainer style={{ paddingTop: 0, paddingLeft: 0, paddingRight: 0 }}  >
             <MainContainer style= {{ backgroundColor: 'transparent' }}>
-                <View>
-                    <Info
-                    results={results}
-                    term={term}
-                    location={location}
+            <FlatList
+                refreshControl={
+                    <RefreshControl 
+                        refreshing={Refresh} 
+                        onRefresh={onRefreshing}
                     />
-                </View>
+                }
+                vertical
+                data={results}
+                showsVerticalScrollIndicator={false}
+                keyExtractor={(result) => result.id}
+                renderItem={({ item }) => {
+                return (
+                    <View>
+                    <FavoriteCard result={ item } />
+                    </View>
+                );
+                }}
+            />
             </MainContainer>
         </MainContainer>
     );

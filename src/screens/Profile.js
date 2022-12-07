@@ -6,12 +6,42 @@ import { colors } from '../components/colors'
 import BigText from '../components/Texts/BigText';
 import SmallText from '../components/Texts/SmallText';
 import RegularText from '../components/Texts/RegularText';
+import RegularButton from '../components/Buttons/RegularButton';
 const { primary, secondary} = colors;
 
+// location
+import * as Location from 'expo-location';
+
 const Profile = ({navigation}) => {
-    //const [firstName, setFirstName] = useState();
-    //const [lastName, setLastName] = useState();
-    //const [email, setEmail] = useState();
+    const [firstName, setFirstName] = useState('');
+    const [lastName, setLastName] = useState();
+    const [email, setEmail] = useState();
+    const [location, setLocation] = useState();
+
+    const getName = async () => {
+        var _ud = await AsyncStorage.getItem('@MyApp_user');
+        var ud = JSON.parse(_ud);
+        setFirstName(ud.firstName);
+        setLastName(ud.lastName);
+        setEmail(ud.email);
+    }
+
+    useEffect(() => {
+        getName();
+      }, []);
+
+      useEffect(() => {
+        (async () => {
+          let { status } = await Location.requestForegroundPermissionsAsync();
+          if (status !== 'granted') {
+            setErrorMsg('Permission to access location was denied');
+            return;
+          }
+          let currentLocation = await Location.getCurrentPositionAsync({});
+          let address = await Location.reverseGeocodeAsync(currentLocation.coords);
+          setLocation(address[0].city + ', ' + address[0].region);
+        })();
+      }, []);
 
     const moveTo = (screen, payLoad) => {
         navigation.navigate(screen, {...payLoad});
@@ -43,19 +73,19 @@ const Profile = ({navigation}) => {
             />
 
           </View>
-          <BigText style ={{textAlign: 'center', marginTop: -15, marginBottom: 15,}}> </BigText>
+          <BigText style ={{textAlign: 'center', marginTop: -15, marginBottom: 15,}}>{firstName} {lastName}</BigText>
 
         </View>
 
         <View style={{alignItems:'center'}}>
           <View style={{flexDirection: 'row'}} >
             <Icon name="map-marker-radius" color="#fff" size={20}/>
-            <SmallText style={{ marginLeft: 10}}>Apopka, Florida</SmallText>
+            <SmallText style={{ marginLeft: 10, marginBottom: 10}}>{location}</SmallText>
           </View>
           
           <View  style={{flexDirection: 'row'}}>
             <Icon name="email" color="#fff" size={20}/>
-            <SmallText style={{marginLeft: 10 }}>john_doe@email.com</SmallText>
+            <SmallText style={{marginLeft: 10 }}>{email}</SmallText>
           </View>
         </View>
 

@@ -9,7 +9,6 @@ import ForgotPassword from '../screens/ForgotPassword';
 import ResetPassword from '../screens/ResetPassword';
 import ChangePassword from '../screens/ChangePassword';
 import Dashboard from '../screens/Dashboard';
-import Avatar from '../components/Buttons/Avatar';
 import Favorites from '../screens/Favorites';
 import Profile from '../screens/Profile';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
@@ -31,7 +30,7 @@ const Tab = createBottomTabNavigator();
         }} 
         >
         <Tab.Screen 
-            name= "Dashboards" 
+            name= "Squawk Dashboard" 
             component ={Dashboard} 
             options={{
                 headerTintColor: white,
@@ -43,14 +42,13 @@ const Tab = createBottomTabNavigator();
                 shadowOpacity: 0,
                 elevation: 0
                 },
-                headerRight: () => <Avatar />,
                 tabBarIcon: ({color,size}) =>(
                     <MaterialCommunityIcons name="home" color={color} size={size}/>
                 )
             }}
         />
         <Tab.Screen 
-            name= "Favorites" 
+            name= "Squawk Favorites" 
             component ={Favorites} 
             options={{
                 headerTintColor: white,
@@ -68,7 +66,7 @@ const Tab = createBottomTabNavigator();
             }}
         />
         <Tab.Screen 
-            name= "Profile" 
+            name= "Squawk Profile" 
             component ={Profile} 
             options={{
                 headerTintColor: white,
@@ -114,15 +112,14 @@ const Tab = createBottomTabNavigator();
                 }}
                 initialRouteName='Login'
             >
-<Stack.Screen name='Login' component={ Login } />
+                <Stack.Screen name='Login' component={ Login } />
                 <Stack.Screen name='Favorites' component={ Favorites } />
                 <Stack.Screen name='Signup' component={ Signup } />
                 <Stack.Screen name='EmailVerification' component={ EmailVerification } options={{headerTitle: 'Email Verification'}} />
                 <Stack.Screen name='ForgotPassword' component={ ForgotPassword } options={{headerTitle: 'Forgot Password'}} />
                 <Stack.Screen name='ResetPassword' component={ ResetPassword } options={{headerTitle: 'Reset Password'}} />
                 <Stack.Screen name='ChangePassword' component={ ChangePassword } options={{headerTitle: 'Change Password'}} />
-                <Stack.Screen name='Dashboard' component={ HomeTabs } options={{ headerShown: false }}
-                />
+                <Stack.Screen name='Dashboard' component={ HomeTabs } options={{ headerShown: false }}/>
             </Stack.Navigator>
       </NavigationContainer>
     );

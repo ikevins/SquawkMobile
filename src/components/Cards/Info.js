@@ -3,19 +3,9 @@ import { TouchableOpacity, SafeAreaView, FlatList, View } from "react-native";
 import SmallText from "../Texts/SmallText";
 import InfoCard from "./InfoCard";
 
-const Info = ({ results, term, location }) => {
-
-  if (!results.length) {
-    return null;
-  }
-
-  if (term === '') {
-    term='all';
-  }
-
+const Info = ({ results }) => {
   return (
     <SafeAreaView>
-      <SmallText>Showing results for '{term}' in {location}</SmallText>
       <FlatList
         vertical
         data={results}

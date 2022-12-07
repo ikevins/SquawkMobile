@@ -11,7 +11,7 @@ import RegularText from '../Texts/RegularText';
 import SmallText from '../Texts/SmallText';
 import BigText from '../Texts/BigText';
 import { TouchableOpacity } from 'react-native-gesture-handler';
-import InfoCardModal from '../Modals/InfoCardModal';
+import FavoritesModal from '../Modals/FavoritesModal';
 
 const { primary, secondary, black, accent, lightGray, tertiary } = colors;
 
@@ -115,7 +115,7 @@ const fiveStar = (
     </>
 )
 
-const InfoCard = ({result, ...props}) => {
+const FavoriteCard = ({result, ...props}) => {
 
     const [modalVisible, setModalVisible] = useState(false);
 
@@ -163,6 +163,8 @@ const InfoCard = ({result, ...props}) => {
         setModalVisible(false);
     }
 
+    console.log(result);
+
     return (
         <TouchableOpacity activeOpacity={0.5} onPress={onInfoCardPress}>
         <CardView style={{ ...props?.style }}>
@@ -173,11 +175,11 @@ const InfoCard = ({result, ...props}) => {
                 <BigText style={{ marginTop: -5, fontSize: 18, fontWeight: 'bold'}}>{result.name}</BigText>
                 <RegularText style={{ fontSize: 16 }}>{result.rating}({result.review_count} reviews)</RegularText>
                 <RegularText style={{fontSize: 16}}>{result.categories[0].title} {result.price}</RegularText>
-                <RegularText style={{fontSize: 16}}>{(result.distance/1609.344).toFixed(1)} miles away</RegularText>
+                {/*<RegularText style={{fontSize: 16}}>{(result.distance/1609.344).toFixed(1)} miles away</RegularText>*/}
                 <RegularText style={{fontSize: 16}}>{result.isclosed ? 'Currently Closed' : 'Currently Open'}</RegularText>
             </CardSection>
         </CardView>
-        <InfoCardModal 
+        <FavoritesModal 
             modalVisible={modalVisible} 
             hideModal={hideModal} 
             result={result}/>
@@ -185,4 +187,4 @@ const InfoCard = ({result, ...props}) => {
     )
 };
 
-export default InfoCard;
+export default FavoriteCard;

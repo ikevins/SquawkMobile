@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import yelp from "../../api/yelp";
 
 export default () => {
@@ -18,6 +18,10 @@ export default () => {
       console.log(error.message);
     }
   };
+
+  /*useEffect(() => {
+    searchApi('pizza', 'Clermont, Fl');
+  }, []);*/
 
   return [searchApi, results];
 };
