@@ -38,7 +38,6 @@ const InfoCardModal = ({result, modalVisible, hideModal }) => {
                         businessID: result.id
                     })
                 });
-                console.log(response.ok);
             } catch (error) {
                 console.log(error.message);
             }
@@ -57,7 +56,6 @@ const InfoCardModal = ({result, modalVisible, hideModal }) => {
                         businessID: result.id
                     })
                 });
-                console.log(response.ok);
             } catch (error) {
                 console.log(error.message);
             }

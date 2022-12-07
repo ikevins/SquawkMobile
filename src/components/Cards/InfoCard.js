@@ -149,7 +149,7 @@ const InfoCard = ({result, ...props}) => {
     }
 
     if (result.price==undefined) {
-        result.price='Unknown';
+        result.price='';
     }
 
     const showInfoCardModal = () => {
@@ -174,7 +174,8 @@ const InfoCard = ({result, ...props}) => {
                 <BigText style={{ marginTop: -5, fontSize: 18, fontWeight: 'bold'}}>{result.name}</BigText>
                 <RegularText style={{ fontSize: 16 }}>{result.rating}({result.review_count} reviews)</RegularText>
                 <RegularText style={{fontSize: 16}}>{result.categories[0].title} {result.price}</RegularText>
-                <RegularText style={{fontSize: 16}}>Distance: {result.distance}</RegularText>
+                <RegularText style={{fontSize: 16}}>{(result.distance/1609.344).toFixed(1)} miles away</RegularText>
+                <RegularText style={{fontSize: 16}}>Something else here</RegularText>
             </CardSection>
         </CardView>
         <InfoCardModal 

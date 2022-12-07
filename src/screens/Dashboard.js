@@ -19,7 +19,6 @@ const Dashboard = () => {
     const [term, setTerm] = useState("");
     const [location, setLocation] = useState(null);
     const [searchApi, results] = SearchResults();
-    var apiKey = 'ygXg7nrp2TH3X_CpYBzRw-x0QN1-D5owhXyg2h6kI80cxwG-gDh3SNjpxU3X4T55tj-7PyQL7WZ8U2_rT0hxrkRU5nBXZnZGBjFNAOyWWEJ8aPhP4W3J4FPXrZVQY3Yx';
 
     useEffect(() => {
         (async () => {

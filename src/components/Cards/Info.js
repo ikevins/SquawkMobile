@@ -13,8 +13,6 @@ const Info = ({ results, term, location }) => {
     term='all';
   }
 
-  results.distance = results.distance/1600;
-
   return (
     <SafeAreaView>
       <SmallText>Showing results for '{term}' in {location}</SmallText>
